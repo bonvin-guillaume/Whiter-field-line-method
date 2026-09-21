@@ -6,8 +6,8 @@ The star calibration for the ASC is done with [WISC - Widefield Star Calibrator]
 ## Method
 <img width="2517" height="880" alt="Coordinate systems used - visual selection" src="https://github.com/user-attachments/assets/9bb638d3-fd4a-4f53-904f-4f66ed3d49e6" />
 
-1. Load an image pair and the matching StarCal files.
-2. Over a geographic box, start field lines at a reference altitude and trace them with IGRF via [PyGeopack](https://github.com/mattkjames7/PyGeopack).
+1. Load an image pair, the matching StarCal files and select a geographic region (latitude and longitude range) where the aurora is.
+2. Over that geographic box, start field lines at a reference altitude and trace them with IGRF via [PyGeopack](https://github.com/mattkjames7/PyGeopack).
 3. Convert each `(lat, lon, alt)` sample to azimuth/elevation from each station, then to image pixels using the StarCal grids.
 4. Sample image brightness along the line to get a brightness–altitude profile at LYR and NYA.
 5. Keep only field lines that pass the stereo tests (similar peak altitudes, high correlation, similar intensity-weighted centroids, well-defined peaks).
