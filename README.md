@@ -5,6 +5,7 @@
 The star calibration for the ASC is done with [WISC - Widefield Star Calibrator](https://juha.no/aida/) and this notebook uses **WISC StarCal** HDF5 files for the camera pointing (azimuth/elevation grids in raw pixel coordinates).
 ## Method
 <img width="2517" height="880" alt="Coordinate systems used - visual selection" src="https://github.com/user-attachments/assets/9bb638d3-fd4a-4f53-904f-4f66ed3d49e6" />
+
 1. Load an image pair and the matching StarCal files.
 2. Over a geographic box, start field lines at a reference altitude and trace them with IGRF via [PyGeopack](https://github.com/mattkjames7/PyGeopack).
 3. Convert each `(lat, lon, alt)` sample to azimuth/elevation from each station, then to image pixels using the StarCal grids.
