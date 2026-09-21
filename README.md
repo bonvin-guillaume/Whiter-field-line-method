@@ -1,17 +1,17 @@
-# Auroral height from stereo all-sky images (WISC StarCal)
+# Auroral height from stereo all-sky images
 
-`guillaume_triangulation_WISC.ipynb` estimates the **peak emission height of aurora** from a pair of all-sky cameras at Longyearbyen (LYR) and Ny-Ålesund (NYA). It follows the magnetic **field-line method** of Whiter et al. (2013): the same field line is projected into both images, brightness is sampled along altitude, and lines that look like the same auroral structure at both sites are kept.
+`whiter_fieldline_method.ipynb` estimates the **peak emission height of aurora** from a pair of all-sky cameras (ASC) at Longyearbyen (LYR) and Ny-Ålesund (NYA). It follows the magnetic **field-line method** of Whiter et al. (2013): the same field line is projected into both images, brightness is sampled along altitude, and lines that have a similar shape at both sites are kept.
 
-This notebook uses **WISC StarCal** HDF5 files for the camera pointing (azimuth/elevation grids in raw pixel coordinates). A related script in this repo, `whiter2013_fieldline_height.py`, implements a similar Method 2 pipeline as a command-line tool.
-
+The star calibration for the ASC is done with [WISC - Widefield Star Calibrator](https://juha.no/aida/) and this notebook uses **WISC StarCal** HDF5 files for the camera pointing (azimuth/elevation grids in raw pixel coordinates).
 ## Method
-
-1. Load a stereo image pair and the matching StarCal files.
-2. Over a geographic box, start field lines at a reference altitude and trace them with IGRF / Tsyganenko via [PyGeopack](https://github.com/mattkjames7/PyGeopack).
+<img width="2517" height="880" alt="Coordinate systems used - visual selection" src="https://github.com/user-attachments/assets/9bb638d3-fd4a-4f53-904f-4f66ed3d49e6" />
+1. Load an image pair and the matching StarCal files.
+2. Over a geographic box, start field lines at a reference altitude and trace them with IGRF via [PyGeopack](https://github.com/mattkjames7/PyGeopack).
 3. Convert each `(lat, lon, alt)` sample to azimuth/elevation from each station, then to image pixels using the StarCal grids.
 4. Sample image brightness along the line to get a brightness–altitude profile at LYR and NYA.
 5. Keep only field lines that pass the stereo tests (similar peak altitudes, high correlation, similar intensity-weighted centroids, well-defined peaks).
 6. Report peak altitudes (mean ± std / SEM) and save overlay and profile figures.
+
 
 ## Requirements
 
@@ -57,7 +57,7 @@ Also set `event_dt` to the same instant as the images. That timestamp is used fo
 
 ## How to run
 
-Open `guillaume_triangulation_WISC.ipynb` and run all cells in order.
+Open `whiter_fieldline_method.ipynb` and run all cells in order.
 
 The tracing cell defines a geographic box and the altitude window. Current values:
 
@@ -95,15 +95,7 @@ Looser numbers (`peak=10`, `corr_thr=0.7`, `edge=0`, `width_limit=999`) accept m
 
 ## Outputs
 
-Figures go to `out/greyscale_out_fiedline_WISC_<YYYYMMDDHHMMSS>/`:
-
-| File | Content |
-| --- | --- |
-| `*_fieldlines.png` | Accepted field lines overplotted on both all-sky images, plus the geographic box at 150 km |
-| `*_profiles_single.png` | Brightness vs altitude for each accepted line (LYR and NYA), with mean profile and peak |
-| `*_normalised_brightness_profile.png` | Mean normalised profile of both stations, with std band |
-
-The notebook also prints peak statistics: mean altitude, standard deviation, and standard error of the mean, for LYR, NYA, and both combined.
+Figures go to `out/`:
 
 ## Notebook layout
 
@@ -113,9 +105,3 @@ The notebook also prints peak statistics: mean altitude, standard deviation, and
 | Field-line tracing functions | GEO/ECEF geometry, PyGeopack traces, pixel mapping, brightness sampling, selection metrics |
 | Trace fieldlines | Geographic box, `trace_and_filter_field_lines(...)` |
 | Plot | Image overlays, single-station profiles, combined normalised profile |
-
-## Related files
-
-- `guillaume_triangulation.ipynb` — earlier triangulation notebook (mapping can be replaced by StarCal)
-- `whiter2013_fieldline_height.py` — script version of the Whiter Method 2 pipeline
-- `geo.ipynb` / `geo_Guillaume.ipynb` — geographic / mapping helpers
