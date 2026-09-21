@@ -1,6 +1,6 @@
 # Auroral height from stereo all-sky images (WISC StarCal)
 
-`guillaume_triangulation_WISC.ipynb` estimates the **peak emission height of aurora** from a pair of all-sky cameras at Longyearbyen (LYR) and Ny-Ålesund (NYA). It follows the magnetic **field-line method** of Whiter et al. (2010 / 2013): the same field line is projected into both images, brightness is sampled along altitude, and lines that look like the same auroral structure at both sites are kept.
+`guillaume_triangulation_WISC.ipynb` estimates the **peak emission height of aurora** from a pair of all-sky cameras at Longyearbyen (LYR) and Ny-Ålesund (NYA). It follows the magnetic **field-line method** of Whiter et al. (2013): the same field line is projected into both images, brightness is sampled along altitude, and lines that look like the same auroral structure at both sites are kept.
 
 This notebook uses **WISC StarCal** HDF5 files for the camera pointing (azimuth/elevation grids in raw pixel coordinates). A related script in this repo, `whiter2013_fieldline_height.py`, implements a similar Method 2 pipeline as a command-line tool.
 
